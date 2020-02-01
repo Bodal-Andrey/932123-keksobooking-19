@@ -83,7 +83,7 @@ var generateData = function (count) {
         photos: photosArray
       },
       location: {
-        x: randomInteger(130, 800),
+        x: randomInteger(10, 1200),
         y: randomInteger(130, 630)
       }
     };
@@ -99,8 +99,8 @@ var similarListPin = document.querySelector('.map__pins');
 var renderPin = function (data) {
   var pinElement = similarPinTemplate.cloneNode(true);
 
-  pinElement.style.left = data.location.x;
-  pinElement.style.top = data.location.y;
+  pinElement.style.left = (data.location.x - 25) + 'px';
+  pinElement.style.top = (data.location.y - 70) + 'px';
   pinElement.querySelector('img').src = data.author.avatar;
   pinElement.querySelector('img').alt = data.offer.title;
 
