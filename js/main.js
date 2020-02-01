@@ -99,12 +99,12 @@ var similarListPin = document.querySelector('.map__pins');
 var renderPin = function (data) {
   var pinElement = similarPinTemplate.cloneNode(true);
 
-  pinElement.querySelector('.map__pin').style.left = data.location.x;
-  pinElement.querySelector('.map__pin').style.top = data.location.y;
-  pinElement.querySelector('.map__pin').content.querySelector('img').src = data.author.avatar;
-  pinElement.querySelector('.map__pin').content.querySelector('img').alt = data.offer.title;
+  pinElement.style.left = data.location.x;
+  pinElement.style.top = data.location.y;
+  pinElement.querySelector('img').src = data.author.avatar;
+  pinElement.querySelector('img').alt = data.offer.title;
 
-  similarListPin.appendChild(pinElement);
+  return pinElement;
 };
 
 var showSetup = function () {
