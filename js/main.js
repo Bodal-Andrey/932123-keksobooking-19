@@ -61,6 +61,28 @@ var getPhotosArray = function () {
 
 var photosArray = getPhotosArray();
 
+var getTypeOfRoomArray = function () {
+  var newTypeOfRoomArray = [];
+
+  for (var i = 0; i < typeOfRoom.length; i++) {
+    if (typeOfRoom[i] === 'palace') {
+      newTypeOfRoomArray[i] = 'Дворец';
+    }
+    if (typeOfRoom[i] === 'flat') {
+      newTypeOfRoomArray[i] = 'Квартира';
+    }
+    if (typeOfRoom[i] === 'house') {
+      newTypeOfRoomArray[i] = 'Дом';
+    }
+    if (typeOfRoom[i] === 'bungalo') {
+      newTypeOfRoomArray[i] = 'Бунгало';
+    }
+  }
+  return newTypeOfRoomArray;
+};
+
+var typeOfRoomArray = getTypeOfRoomArray();
+
 var generateData = function (count) {
   var arr = [];
 
@@ -73,7 +95,7 @@ var generateData = function (count) {
         title: titles[randomInteger(0, titles.length - 1)],
         address: 'location.x, location.y',
         price: randomInteger(0, 1000),
-        type: typeOfRoom[randomInteger(0, typeOfRoom.length - 1)],
+        type: typeOfRoomArray[randomInteger(0, typeOfRoomArray.length - 1)],
         rooms: randomInteger(1, 5),
         guests: randomInteger(1, 10),
         checkin: checkTime[randomInteger(0, checkTime.length - 1)],
@@ -107,7 +129,7 @@ var renderPin = function (data) {
   return pinElement;
 };
 
-var showSetup = function () {
+var showSetupPins = function () {
   var datas = generateData(COUNTER);
 
   var fragment = document.createDocumentFragment();
@@ -117,4 +139,35 @@ var showSetup = function () {
   similarListPin.appendChild(fragment);
 };
 
-showSetup();
+showSetupPins();
+
+var similarCardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+var similarListCard = document.querySelector('.map');
+
+var renderCard = function (data) {
+  var cardElement = similarCardTemplate.cloneNode(true);
+
+  cardElement.querySelector('.popup__title').textContent = data.offer.title;
+  cardElement.querySelector('.popup__text--address').textContent = data.offer.addres;
+  cardElement.querySelector('.popup__text--price').textContent = data.offer.price + 'Р/ночь';
+  cardElement.querySelector('.popup__type').textContent = data.offer.type;
+  cardElement.querySelector('.popup__text--capacity').textContent = data.offer.rooms + ' комнаты для ' + data.offer.guests + ' гостей';
+  cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + data.offer.checkin + ', выезд до ' + data.offer.checkout;
+  cardElement.querySelector('.popup__description').textContent = data.offer.description;
+  cardElement.querySelector('.popup__photos').querySelector('img').src = data.offer.photos;
+  cardElement.querySelector('.popup__avatar').src = data.author.avatar;
+
+  return cardElement;
+};
+
+var showSetupCards = function () {
+  var datas = generateData(COUNTER);
+
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < datas.length; i++) {
+    fragment.appendChild(renderCard(datas[i]));
+  }
+  similarListCard.appendChild(fragment);
+};
+
+showSetupCards();
