@@ -113,8 +113,6 @@ var generateData = function (count) {
   return arr;
 };
 
-document.querySelector('.map').classList.remove('map--faded');
-
 var similarPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 var similarListPin = document.querySelector('.map__pins');
 
@@ -141,56 +139,102 @@ var showSetupPins = function () {
 
 showSetupPins();
 
-var similarCardTemplate = document.querySelector('#card').content.querySelector('.map__card');
-var similarListCard = document.querySelector('.map');
+// Отрисовка карточки
+// var similarCardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+// var similarListCard = document.querySelector('.map');
 
-var renderFeatures = function (container, features) {
-  container.innerHTML = '';
+// var renderFeatures = function (container, features) {
+//   container.innerHTML = '';
 
-  for (var i = 0; i < features.length; i++) {
-    var createLi = document.createElement('li');
-    createLi.classList.add('popup__feature');
-    createLi.classList.add('popup__feature--' + features[i]);
-    container.appendChild(createLi);
+//   for (var i = 0; i < features.length; i++) {
+//     var createLi = document.createElement('li');
+//     createLi.classList.add('popup__feature');
+//     createLi.classList.add('popup__feature--' + features[i]);
+//     container.appendChild(createLi);
+//   }
+// };
+
+// var renderPhotos = function (container, node, photos) {
+//   container.innerHTML = '';
+
+//   for (var i = 0; i < photos.length; i++) {
+//     var img = node.cloneNode();
+//     img.src = photos[i];
+//     container.appendChild(img);
+//   }
+// };
+
+// var renderCard = function (data) {
+//   var cardElement = similarCardTemplate.cloneNode(true);
+
+//   cardElement.querySelector('.popup__title').textContent = data.offer.title;
+//   cardElement.querySelector('.popup__text--address').textContent = data.offer.addres;
+//   cardElement.querySelector('.popup__text--price').textContent = data.offer.price + ' Р/ночь';
+//   cardElement.querySelector('.popup__type').textContent = data.offer.type;
+//   cardElement.querySelector('.popup__text--capacity').textContent = data.offer.rooms + ' комнаты для ' + data.offer.guests + ' гостей';
+//   cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + data.offer.checkin + ', выезд до ' + data.offer.checkout;
+//   cardElement.querySelector('.popup__description').textContent = data.offer.description;
+//   cardElement.querySelector('.popup__avatar').src = data.author.avatar;
+
+//   renderFeatures(cardElement.querySelector('.popup__features'), data.offer.features);
+//   renderPhotos(cardElement.querySelector('.popup__photos'), cardElement.querySelector('.popup__photo'), data.offer.photos);
+
+//   return cardElement;
+// };
+
+// var showSetupCards = function () {
+//   var datas = generateData(COUNTER);
+//   var mapFiltersContainer = document.querySelector('.map__filters-container');
+//   var fragment = document.createDocumentFragment();
+//   for (var i = 0; i < datas.length; i++) {
+//     fragment.appendChild(renderCard(datas[i]));
+//   }
+//   similarListCard.insertBefore(fragment, mapFiltersContainer);
+// };
+
+// showSetupCards();
+
+// Активация страницы
+var ENTER_KEY = 'Enter';
+
+document.querySelector('.ad-form-header').classList.add('disabled');
+document.querySelector('.map__filters').classList.add('disabled');
+
+var selectionFieldset = document.getElementsByClassName('ad-form__element');
+
+for (var i = 0; i < selectionFieldset.length; i++) {
+  selectionFieldset[i].classList.add('disabled');
+}
+
+var mainMark = document.querySelector('.map__pin--main');
+
+var removeDisabled = function () {
+  document.querySelector('.map').classList.remove('map--faded');
+  document.querySelector('.ad-form-header').classList.remove('disabled');
+  document.querySelector('.map__filters').classList.remove('disabled');
+
+  for (var j = 0; j < selectionFieldset.length; j++) {
+    selectionFieldset[j].classList.remove('disabled');
   }
 };
 
-var renderPhotos = function (container, node, photos) {
-  container.innerHTML = '';
-
-  for (var i = 0; i < photos.length; i++) {
-    var img = node.cloneNode();
-    img.src = photos[i];
-    container.appendChild(img);
+var detectLeftButton = function (evt) {
+  evt = evt || window.event;
+  if ('buttons' in evt) {
+    return evt.buttons === 1;
   }
+  var button = evt.which || evt.button;
+  return button === 1;
 };
 
-var renderCard = function (data) {
-  var cardElement = similarCardTemplate.cloneNode(true);
-
-  cardElement.querySelector('.popup__title').textContent = data.offer.title;
-  cardElement.querySelector('.popup__text--address').textContent = data.offer.addres;
-  cardElement.querySelector('.popup__text--price').textContent = data.offer.price + ' Р/ночь';
-  cardElement.querySelector('.popup__type').textContent = data.offer.type;
-  cardElement.querySelector('.popup__text--capacity').textContent = data.offer.rooms + ' комнаты для ' + data.offer.guests + ' гостей';
-  cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + data.offer.checkin + ', выезд до ' + data.offer.checkout;
-  cardElement.querySelector('.popup__description').textContent = data.offer.description;
-  cardElement.querySelector('.popup__avatar').src = data.author.avatar;
-
-  renderFeatures(cardElement.querySelector('.popup__features'), data.offer.features);
-  renderPhotos(cardElement.querySelector('.popup__photos'), cardElement.querySelector('.popup__photo'), data.offer.photos);
-
-  return cardElement;
-};
-
-var showSetupCards = function () {
-  var datas = generateData(COUNTER);
-  var mapFiltersContainer = document.querySelector('.map__filters-container');
-  var fragment = document.createDocumentFragment();
-  for (var i = 0; i < datas.length; i++) {
-    fragment.appendChild(renderCard(datas[i]));
+mainMark.addEventListener('mousedown', function () {
+  if (detectLeftButton()) {
+    removeDisabled();
   }
-  similarListCard.insertBefore(fragment, mapFiltersContainer);
-};
+});
 
-showSetupCards();
+mainMark.addEventListener('keydown', function (evt) {
+  if (evt.key === ENTER_KEY) {
+    removeDisabled();
+  }
+});
