@@ -197,7 +197,9 @@ var ENTER_KEY = 'Enter';
 var labelCenterTop = document.querySelector('.map__pin--main').style.top;
 var labelCenterLeft = document.querySelector('.map__pin--main').style.left;
 var addressBar = document.getElementById('address');
+var offerForm = document.querySelector('.ad-form');
 
+offerForm.setAttribute('action', 'https://js.dump.academy/keksobooking');
 addressBar.placeholder = Math.round(parseInt(labelCenterLeft, 10) + 32.5) + ', ' + Math.round(parseInt(labelCenterTop, 10) + 32.5);
 
 var getAddressBar = function () {
@@ -219,7 +221,7 @@ for (var i = 0; i < selectionFieldset.length; i++) {
 var mainMark = document.querySelector('.map__pin--main');
 
 var removeDisabled = function () {
-  document.querySelector('.ad-form').classList.remove('ad-form--disabled');
+  offerForm.classList.remove('ad-form--disabled');
   document.querySelector('.map').classList.remove('map--faded');
   document.querySelector('.ad-form-header').removeAttribute('disabled');
   document.querySelector('.map__filters').classList.remove('ad-form--disabled');
@@ -253,3 +255,9 @@ mainMark.addEventListener('keydown', function (evt) {
     getAddressBar();
   }
 });
+
+// Валидация формы
+// var roomNumber = document.getElementById('room_number');
+// var capacityGuests = document.getElementById('capacity');
+// var optionOfRoomNumber = roomNumber.querySelectorAll('option');
+// var optionCapacityGuests = capacityGuests.querySelectorAll('option');
