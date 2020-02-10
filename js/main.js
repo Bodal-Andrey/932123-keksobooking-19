@@ -196,10 +196,9 @@ var showSetupPins = function () {
 var ENTER_KEY = 'Enter';
 var labelCenterTop = document.querySelector('.map__pin--main').style.top;
 var labelCenterLeft = document.querySelector('.map__pin--main').style.left;
-var addressBar = document.getElementById('address');
+var addressBar = document.querySelector('#address');
 var offerForm = document.querySelector('.ad-form');
 
-offerForm.setAttribute('action', 'https://js.dump.academy/keksobooking');
 addressBar.placeholder = Math.round(parseInt(labelCenterLeft, 10) + 32.5) + ', ' + Math.round(parseInt(labelCenterTop, 10) + 32.5);
 
 var getAddressBar = function () {
@@ -212,7 +211,7 @@ var getAddressBar = function () {
 document.querySelector('.ad-form-header').setAttribute('disabled', 'disabled');
 document.querySelector('.map__filters').classList.add('ad-form--disabled');
 
-var selectionFieldset = document.getElementsByClassName('ad-form__element');
+var selectionFieldset = document.querySelectorAll('.ad-form__element');
 
 for (var i = 0; i < selectionFieldset.length; i++) {
   selectionFieldset[i].setAttribute('disabled', 'disabled');
@@ -257,7 +256,34 @@ mainMark.addEventListener('keydown', function (evt) {
 });
 
 // Валидация формы
-// var roomNumber = document.getElementById('room_number');
-// var capacityGuests = document.getElementById('capacity');
-// var optionOfRoomNumber = roomNumber.querySelectorAll('option');
-// var optionCapacityGuests = capacityGuests.querySelectorAll('option');
+var rooms = offerForm.querySelector('#room_number');
+var guests = offerForm.querySelector('#capacity');
+
+var ROOMS_FOR_GUESTS = {
+  '1': ['1'],
+  '2': ['2', '1'],
+  '3': ['3', '2', '1'],
+  '100': ['0']
+};
+
+var validateGuests = function () {
+  var validGuestsOptions = ROOMS_FOR_GUESTS[rooms.value];
+  var guestsOptions = guests.querySelectorAll('option');
+  guestsOptions.forEach(function (currentOption) {
+    currentOption.disabled = true;
+    currentOption.selected = false;
+    var index = validGuestsOptions.indexOf(currentOption.value);
+    if (index >= 0) {
+      currentOption.disabled = false;
+      if (index === 0) {
+        currentOption.selected = true;
+      }
+    }
+  });
+};
+
+validateGuests();
+
+rooms.addEventListener('change', function () {
+  validateGuests();
+});
