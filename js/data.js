@@ -84,35 +84,37 @@
 
   var typeOfRoomArray = getTypeOfRoomArray();
 
-  window.data = {
-    generateData: function (count) {
-      var arr = [];
+  var generateData = function (count) {
+    var arr = [];
 
-      for (var i = 0; i < count; i++) {
-        arr[i] = {
-          author: {
-            avatar: 'img/avatars/user0' + (i + 1) + '.png'
-          },
-          offer: {
-            title: titles[randomInteger(0, titles.length - 1)],
-            address: 'location.x, location.y',
-            price: randomInteger(0, 1000),
-            type: typeOfRoomArray[randomInteger(0, typeOfRoomArray.length - 1)],
-            rooms: randomInteger(1, 5),
-            guests: randomInteger(1, 10),
-            checkin: checkTime[randomInteger(0, checkTime.length - 1)],
-            checkout: checkTime[randomInteger(0, checkTime.length - 1)],
-            features: featuresArray,
-            description: characteristic[randomInteger(0, characteristic.length - 1)],
-            photos: photosArray
-          },
-          location: {
-            x: randomInteger(10, 1200),
-            y: randomInteger(130, 630)
-          }
-        };
-      }
-      return arr;
+    for (var i = 0; i < count; i++) {
+      arr[i] = {
+        author: {
+          avatar: 'img/avatars/user0' + (i + 1) + '.png'
+        },
+        offer: {
+          title: titles[randomInteger(0, titles.length - 1)],
+          address: 'location.x, location.y',
+          price: randomInteger(0, 1000),
+          type: typeOfRoomArray[randomInteger(0, typeOfRoomArray.length - 1)],
+          rooms: randomInteger(1, 5),
+          guests: randomInteger(1, 10),
+          checkin: checkTime[randomInteger(0, checkTime.length - 1)],
+          checkout: checkTime[randomInteger(0, checkTime.length - 1)],
+          features: featuresArray,
+          description: characteristic[randomInteger(0, characteristic.length - 1)],
+          photos: photosArray
+        },
+        location: {
+          x: randomInteger(10, 1200),
+          y: randomInteger(130, 630)
+        }
+      };
     }
+    return arr;
+  };
+
+  window.data = {
+    generateData: generateData
   };
 })();

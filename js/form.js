@@ -40,17 +40,19 @@
     selectionFieldset[i].setAttribute('disabled', 'disabled');
   }
 
-  window.form = {
-    removeDisabled: function () {
-      offerForm.classList.remove('ad-form--disabled');
-      document.querySelector('.map').classList.remove('map--faded');
-      document.querySelector('.ad-form-header').removeAttribute('disabled');
-      document.querySelector('.map__filters').classList.remove('ad-form--disabled');
+  var removeDisabled = function () {
+    offerForm.classList.remove('ad-form--disabled');
+    document.querySelector('.map').classList.remove('map--faded');
+    document.querySelector('.ad-form-header').removeAttribute('disabled');
+    document.querySelector('.map__filters').classList.remove('ad-form--disabled');
 
-      for (var j = 0; j < selectionFieldset.length; j++) {
-        selectionFieldset[j].removeAttribute('disabled');
-      }
+    for (var j = 0; j < selectionFieldset.length; j++) {
+      selectionFieldset[j].removeAttribute('disabled');
     }
+  };
+
+  window.form = {
+    removeDisabled: removeDisabled
   };
 
   // Валидация формы

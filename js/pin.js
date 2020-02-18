@@ -2,7 +2,6 @@
 
 // Модуль, который отвечает за создание метки на карте
 (function () {
-  var ENTER_KEY = 'Enter';
   var labelCenterTop = document.querySelector('.map__pin--main').style.top;
   var labelCenterLeft = document.querySelector('.map__pin--main').style.left;
   var addressBar = document.querySelector('#address');
@@ -35,7 +34,7 @@
   });
 
   mainMark.addEventListener('keydown', function (evt) {
-    if (evt.key === ENTER_KEY) {
+    if (evt.key === window.utils.ENTER_KEY) {
       window.form.removeDisabled();
       window.map.showSetupPins();
       getAddressBar();

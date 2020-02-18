@@ -2,7 +2,6 @@
 
 // Модуль, который управляет карточками объявлений и метками
 (function () {
-  var ENTER_KEY = 'Enter';
   var COUNTER = 8;
   var datas = window.data.generateData(COUNTER);
   var similarPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
@@ -24,7 +23,7 @@
       renderCard(similarListPin, data);
     });
     pinElement.addEventListener('keydown', function (evt) {
-      if (evt.key === ENTER_KEY) {
+      if (evt.key === window.utils.ENTER_KEY) {
         renderCard(similarListPin, data);
       }
     });
@@ -32,13 +31,15 @@
     return pinElement;
   };
 
-  window.map = {
-    showSetupPins: function () {
-      var fragment = document.createDocumentFragment();
-      for (var i = 0; i < datas.length; i++) {
-        fragment.appendChild(createPin(datas[i]));
-      }
-      similarListPin.appendChild(fragment);
+  var showSetupPins = function () {
+    var fragment = document.createDocumentFragment();
+    for (var i = 0; i < datas.length; i++) {
+      fragment.appendChild(createPin(datas[i]));
     }
+    similarListPin.appendChild(fragment);
+  };
+
+  window.map = {
+    showSetupPins: showSetupPins
   };
 })();
