@@ -23,10 +23,19 @@
     return button === 1;
   };
 
+  var onGetPins = function (datas) {
+    var fragment = document.createDocumentFragment();
+
+    for (var i = 0; i < datas.length; i++) {
+      fragment.appendChild(window.map.createPin(datas[i]));
+    }
+    window.map.similarListPin.appendChild(fragment);
+  };
+
   window.utils.mainMark.addEventListener('keydown', function (evt) {
     if (evt.key === window.utils.ENTER_KEY) {
       window.form.removeDisabled();
-      window.map.showSetupPins();
+      window.load(onGetPins);
       getAddressBar();
     }
   });
@@ -36,7 +45,7 @@
 
     if (detectLeftButton()) {
       window.form.removeDisabled();
-      window.map.showSetupPins();
+      window.load(onGetPins);
       getAddressBar();
     }
 

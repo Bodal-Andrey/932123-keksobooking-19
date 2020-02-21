@@ -3,6 +3,7 @@
 (function () {
   var ENTER_KEY = 'Enter';
   var ESC_KEY = 'Escape';
+  var URL_L = 'https://js.dump.academy/keksobooking/data';
   var addressBar = document.querySelector('#address');
   var mainMark = document.querySelector('.map__pin--main');
 
@@ -10,6 +11,7 @@
     ENTER_KEY: ENTER_KEY,
     ESC_KEY: ESC_KEY,
     addressBar: addressBar,
-    mainMark: mainMark
+    mainMark: mainMark,
+    URL_L: URL_L
   };
 })();
