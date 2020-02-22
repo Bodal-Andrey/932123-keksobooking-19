@@ -7,6 +7,5 @@
   window.utils = {
     ENTER_KEY: ENTER_KEY,
     ESC_KEY: ESC_KEY,
-    URL_L: URL_L
   };
 })();
