@@ -31,6 +31,6 @@
 
   window.map = {
     createPin: createPin,
-    similarListPin: similarListPin
+    similarListPin: similarListPin,
   };
 })();

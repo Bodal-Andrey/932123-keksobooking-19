@@ -4,14 +4,16 @@
 (function () {
   var labelCenterTop = document.querySelector('.map__pin--main').style.top;
   var labelCenterLeft = document.querySelector('.map__pin--main').style.left;
+  var addressBar = document.querySelector('#address');
+  var mainMark = document.querySelector('.map__pin--main');
 
-  window.utils.addressBar.placeholder = Math.round(parseInt(labelCenterLeft, 10) + 32.5) + ', ' + Math.round(parseInt(labelCenterTop, 10) + 32.5);
+  addressBar.placeholder = Math.round(parseInt(labelCenterLeft, 10) + 32.5) + ', ' + Math.round(parseInt(labelCenterTop, 10) + 32.5);
 
   var getAddressBar = function () {
     var spikeLabelTop = Math.round(parseInt(labelCenterTop, 10) + 78);
     var spikeLabelLeft = Math.round(parseInt(labelCenterLeft, 10) + 32.5);
 
-    window.utils.addressBar.placeholder = spikeLabelLeft + ', ' + spikeLabelTop;
+    addressBar.placeholder = spikeLabelLeft + ', ' + spikeLabelTop;
   };
 
   var detectLeftButton = function (evt) {
@@ -32,7 +34,7 @@
     window.map.similarListPin.appendChild(fragment);
   };
 
-  window.utils.mainMark.addEventListener('keydown', function (evt) {
+  mainMark.addEventListener('keydown', function (evt) {
     if (evt.key === window.utils.ENTER_KEY) {
       window.form.removeDisabled();
       window.load(onGetPins);
@@ -40,7 +42,7 @@
     }
   });
 
-  window.utils.mainMark.addEventListener('mousedown', function (evt) {
+  mainMark.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
     if (detectLeftButton()) {
