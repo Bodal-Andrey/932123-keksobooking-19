@@ -26,12 +26,9 @@
   };
 
   var onGetPins = function (datas) {
-    var fragment = document.createDocumentFragment();
-
     for (var i = 0; i < datas.length; i++) {
-      fragment.appendChild(window.map.createPin(datas[i]));
+      window.map.similarListPin.appendChild(window.map.createPin(datas[i]));
     }
-    window.map.similarListPin.appendChild(fragment);
   };
 
   mainMark.addEventListener('keydown', function (evt) {
