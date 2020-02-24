@@ -32,6 +32,10 @@
   var timein = offerForm.querySelector('#timein');
   var timeout = offerForm.querySelector('#timeout');
   var selectOfRoom = offerForm.querySelector('#type');
+  var resetForm = offerForm.querySelector('.ad-form__reset');
+  var main = document.querySelector('main');
+  var success = document.querySelector('#success').content.querySelector('.success');
+  var error = document.querySelector('#error').content.querySelector('.error');
 
   document.querySelector('.ad-form-header').setAttribute('disabled', 'disabled');
   document.querySelector('.map__filters').classList.add('ad-form--disabled');
@@ -51,8 +55,92 @@
     }
   };
 
+  var addDisabled = function () {
+    offerForm.classList.add('ad-form--disabled');
+    document.querySelector('.map').classList.add('map--faded');
+    document.querySelector('.ad-form-header').setAttribute('disabled', 'disabled');
+    document.querySelector('.map__filters').classList.add('ad-form--disabled');
+
+    for (var j = 0; j < selectionFieldset.length; j++) {
+      selectionFieldset[j].setAttribute('disabled', 'disabled');
+    }
+  };
+
+  offerForm.addEventListener('submit', function (evt) {
+    window.upload(new FormData(offerForm), function () {
+      addDisabled();
+      window.pin.onRemovePins();
+      window.card.closeAllCard();
+      offerForm.reset();
+      onPriceOfRoom();
+      document.querySelector('.map__pin--main').style.top = '375px';
+      document.querySelector('.map__pin--main').style.left = '570px';
+      window.pin.addressBar.placeholder = '603, 408';
+    });
+    evt.preventDefault();
+  });
+
+  resetForm.addEventListener('click', function (evt) {
+    addDisabled();
+    window.pin.onRemovePins();
+    window.card.closeAllCard();
+    offerForm.reset();
+    onPriceOfRoom();
+    document.querySelector('.map__pin--main').style.top = '375px';
+    document.querySelector('.map__pin--main').style.left = '570px';
+    window.pin.addressBar.placeholder = '603, 408';
+    evt.preventDefault();
+  });
+
+  var onGetSuccess = function () {
+    main.appendChild(success);
+  };
+
+  var onGetError = function () {
+    main.appendChild(error);
+  };
+
+  var onRemoveError = function () {
+    main.removeChild(error);
+  };
+
+  var onRemoveSuccess = function () {
+    main.removeChild(success);
+  };
+
+  var closeErrorMessage = function () {
+    var errorButton = document.querySelector('.error__button');
+    if (onGetError) {
+      errorButton.addEventListener('click', function () {
+        onRemoveError();
+      });
+      document.addEventListener('click', function () {
+        onRemoveError();
+      });
+    }
+  };
+
+  var closeSuccessMessage = function () {
+    if (onGetSuccess) {
+      document.addEventListener('click', function () {
+        onRemoveSuccess();
+      });
+    }
+  };
+
+  document.addEventListener('keydown', function (evt) {
+    if (evt.key === window.utils.ESC_KEY) {
+      onRemoveError();
+      onRemoveSuccess();
+    }
+  });
+
   window.form = {
-    removeDisabled: removeDisabled
+    onGetSuccess: onGetSuccess,
+    onGetError: onGetError,
+    removeDisabled: removeDisabled,
+    closeErrorMessage: closeErrorMessage,
+    closeSuccessMessage: closeSuccessMessage
   };
 
   // Валидация формы
@@ -124,8 +212,10 @@
     }
   });
 
-  selectOfRoom.addEventListener('change', function () {
+  var onPriceOfRoom = function () {
     priceOfRoom.placeholder = minPriceOfRoom[selectOfRoom.value];
     priceOfRoom.min = minPriceOfRoom[selectOfRoom.value];
-  });
+  };
+
+  selectOfRoom.addEventListener('change', onPriceOfRoom);
 })();

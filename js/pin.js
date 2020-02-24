@@ -31,6 +31,13 @@
     }
   };
 
+  var onRemovePins = function () {
+    var pins = document.querySelectorAll('.map__pin');
+    for (var i = 1; i < pins.length; i++) {
+      window.map.similarListPin.removeChild(pins[i]);
+    }
+  };
+
   mainMark.addEventListener('keydown', function (evt) {
     if (evt.key === window.utils.ENTER_KEY) {
       window.form.removeDisabled();
@@ -68,4 +75,9 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
+
+  window.pin = {
+    onRemovePins: onRemovePins,
+    addressBar: addressBar
+  };
 })();
