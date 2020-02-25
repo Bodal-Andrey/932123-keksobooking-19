@@ -66,21 +66,42 @@
     }
   };
 
-  offerForm.addEventListener('submit', function (evt) {
-    window.upload(new FormData(offerForm), function () {
-      addDisabled();
-      window.pin.onRemovePins();
-      window.card.closeAllCard();
-      offerForm.reset();
-      onPriceOfRoom();
-      document.querySelector('.map__pin--main').style.top = '375px';
-      document.querySelector('.map__pin--main').style.left = '570px';
-      window.pin.addressBar.placeholder = '603, 408';
-    });
-    evt.preventDefault();
-  });
+  var getReport = function (data) {
+    main.appendChild(data);
+  };
 
-  resetForm.addEventListener('click', function (evt) {
+  var removeReport = function (data) {
+    main.removeChild(data);
+  };
+
+  var closeErrorMessage = function () {
+    var errorButton = document.querySelector('.error__button');
+
+    errorButton.addEventListener('click', function () {
+      removeReport(error);
+    });
+    document.addEventListener('click', function () {
+      removeReport(error);
+    });
+    document.addEventListener('keydown', function (evt) {
+      if (evt.key === window.utils.ESC_KEY) {
+        removeReport(error);
+      }
+    });
+  };
+
+  var closeSuccessMessage = function () {
+    document.addEventListener('click', function () {
+      removeReport(success);
+    });
+    document.addEventListener('keydown', function (evt) {
+      if (evt.key === window.utils.ESC_KEY) {
+        removeReport(success);
+      }
+    });
+  };
+
+  var backToBasis = function () {
     addDisabled();
     window.pin.onRemovePins();
     window.card.closeAllCard();
@@ -88,60 +109,29 @@
     onPriceOfRoom();
     document.querySelector('.map__pin--main').style.top = '375px';
     document.querySelector('.map__pin--main').style.left = '570px';
-    window.pin.addressBar.placeholder = '603, 408';
-    evt.preventDefault();
-  });
+    window.map.addressBar.value = '603, 408';
+  };
 
   var onGetSuccess = function () {
-    main.appendChild(success);
+    backToBasis();
+    getReport(success);
+    closeSuccessMessage();
   };
 
   var onGetError = function () {
-    main.appendChild(error);
+    getReport(error);
+    closeErrorMessage();
   };
 
-  var onRemoveError = function () {
-    main.removeChild(error);
-  };
-
-  var onRemoveSuccess = function () {
-    main.removeChild(success);
-  };
-
-  var closeErrorMessage = function () {
-    var errorButton = document.querySelector('.error__button');
-    if (onGetError) {
-      errorButton.addEventListener('click', function () {
-        onRemoveError();
-      });
-      document.addEventListener('click', function () {
-        onRemoveError();
-      });
-    }
-  };
-
-  var closeSuccessMessage = function () {
-    if (onGetSuccess) {
-      document.addEventListener('click', function () {
-        onRemoveSuccess();
-      });
-    }
-  };
-
-  document.addEventListener('keydown', function (evt) {
-    if (evt.key === window.utils.ESC_KEY) {
-      onRemoveError();
-      onRemoveSuccess();
-    }
+  offerForm.addEventListener('submit', function (evt) {
+    window.upload(new FormData(offerForm), onGetSuccess, onGetError);
+    evt.preventDefault();
   });
 
-  window.form = {
-    onGetSuccess: onGetSuccess,
-    onGetError: onGetError,
-    removeDisabled: removeDisabled,
-    closeErrorMessage: closeErrorMessage,
-    closeSuccessMessage: closeSuccessMessage
-  };
+  resetForm.addEventListener('click', function (evt) {
+    backToBasis();
+    evt.preventDefault();
+  });
 
   // Валидация формы
   var validateGuests = function () {
@@ -218,4 +208,8 @@
   };
 
   selectOfRoom.addEventListener('change', onPriceOfRoom);
+
+  window.form = {
+    removeDisabled: removeDisabled
+  };
 })();

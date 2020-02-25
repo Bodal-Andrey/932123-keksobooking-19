@@ -1,83 +1,45 @@
 'use strict';
 
-// Модуль, который отвечает за создание метки на карте
+// Модуль, который управляет карточками объявлений и метками
 (function () {
-  var labelCenterTop = document.querySelector('.map__pin--main').style.top;
-  var labelCenterLeft = document.querySelector('.map__pin--main').style.left;
-  var addressBar = document.querySelector('#address');
-  var mainMark = document.querySelector('.map__pin--main');
+  var similarPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+  var similarListPin = document.querySelector('.map__pins');
 
-  addressBar.placeholder = Math.round(parseInt(labelCenterLeft, 10) + 32.5) + ', ' + Math.round(parseInt(labelCenterTop, 10) + 32.5);
+  var createPin = function (data) {
+    var pinElement = similarPinTemplate.cloneNode(true);
 
-  var getAddressBar = function () {
-    var spikeLabelTop = Math.round(parseInt(labelCenterTop, 10) + 78);
-    var spikeLabelLeft = Math.round(parseInt(labelCenterLeft, 10) + 32.5);
+    pinElement.style.left = (data.location.x - 25) + 'px';
+    pinElement.style.top = (data.location.y - 70) + 'px';
+    pinElement.querySelector('img').src = data.author.avatar;
+    pinElement.querySelector('img').alt = data.offer.title;
 
-    addressBar.placeholder = spikeLabelLeft + ', ' + spikeLabelTop;
-  };
+    pinElement.addEventListener('click', function () {
+      window.card.renderCard(similarListPin, data);
+    });
+    pinElement.addEventListener('keydown', function (evt) {
+      if (evt.key === window.utils.ENTER_KEY) {
+        window.card.renderCard(similarListPin, data);
+      }
+    });
 
-  var detectLeftButton = function (evt) {
-    evt = evt || window.event;
-    if ('buttons' in evt) {
-      return evt.buttons === 1;
-    }
-    var button = evt.which || evt.button;
-    return button === 1;
+    return pinElement;
   };
 
   var onGetPins = function (datas) {
     for (var i = 0; i < datas.length; i++) {
-      window.map.similarListPin.appendChild(window.map.createPin(datas[i]));
+      similarListPin.appendChild(createPin(datas[i]));
     }
   };
 
   var onRemovePins = function () {
     var pins = document.querySelectorAll('.map__pin');
     for (var i = 1; i < pins.length; i++) {
-      window.map.similarListPin.removeChild(pins[i]);
+      similarListPin.removeChild(pins[i]);
     }
   };
 
-  mainMark.addEventListener('keydown', function (evt) {
-    if (evt.key === window.utils.ENTER_KEY) {
-      window.form.removeDisabled();
-      window.load(onGetPins);
-      getAddressBar();
-    }
-  });
-
-  mainMark.addEventListener('mousedown', function (evt) {
-    evt.preventDefault();
-
-    if (detectLeftButton()) {
-      window.form.removeDisabled();
-      window.load(onGetPins);
-      getAddressBar();
-    }
-
-    window.startCoords = {
-      x: evt.clientX,
-      y: evt.clientY
-    };
-
-    var onMouseMove = function (moveEvt) {
-      moveEvt.preventDefault();
-      window.calc.getCalcCoords(moveEvt);
-    };
-
-    var onMouseUp = function (upEvt) {
-      upEvt.preventDefault();
-      window.calc.getCalcCoords(upEvt);
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
-    };
-
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-  });
-
   window.pin = {
-    onRemovePins: onRemovePins,
-    addressBar: addressBar
+    onGetPins: onGetPins,
+    onRemovePins: onRemovePins
   };
 })();

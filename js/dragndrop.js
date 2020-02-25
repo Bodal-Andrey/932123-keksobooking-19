@@ -34,10 +34,23 @@
     } else {
       mainMark.style.left = limitX + 'px';
     }
-    addressBar.placeholder = Math.round(parseInt(mainMark.style.left, 10) + 32.5) + ', ' + Math.round(parseInt(mainMark.style.top, 10) + 78);
+    addressBar.value = Math.round(parseInt(mainMark.style.left, 10) + 32.5) + ', ' + Math.round(parseInt(mainMark.style.top, 10) + 78);
   };
 
-  window.calc = {
-    getCalcCoords: getCalcCoords,
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+    getCalcCoords(moveEvt);
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+    getCalcCoords(upEvt);
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+
+  window.dragndrop = {
+    onMouseMove: onMouseMove,
+    onMouseUp: onMouseUp
   };
 })();
