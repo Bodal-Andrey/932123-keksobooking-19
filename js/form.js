@@ -90,10 +90,13 @@
     });
   };
 
+  var onClickDocumentSuccess = function () {
+    removeReport(success);
+    document.removeEventListener('click', onClickDocumentSuccess);
+  };
+
   var closeSuccessMessage = function () {
-    document.addEventListener('click', function () {
-      removeReport(success);
-    });
+    document.addEventListener('click', onClickDocumentSuccess);
     document.addEventListener('keydown', function (evt) {
       if (evt.key === window.utils.ESC_KEY) {
         removeReport(success);

@@ -39,8 +39,8 @@
 
     if (detectLeftButton()) {
       window.form.removeDisabled();
-      window.load(window.pin.onGetPins);
       getAddressBar();
+      window.load(window.pin.onGetPins);
     }
 
     window.startCoords = {
