@@ -25,6 +25,7 @@
 
   var offerForm = document.querySelector('.ad-form');
   var selectionFieldset = document.querySelectorAll('.ad-form__element');
+  var housingSelects = document.querySelectorAll('.map__filter');
   var rooms = offerForm.querySelector('#room_number');
   var guests = offerForm.querySelector('#capacity');
   var adTitle = offerForm.querySelector('#title');
@@ -37,13 +38,6 @@
   var success = document.querySelector('#success').content.querySelector('.success');
   var error = document.querySelector('#error').content.querySelector('.error');
 
-  document.querySelector('.ad-form-header').setAttribute('disabled', 'disabled');
-  document.querySelector('.map__filters').classList.add('ad-form--disabled');
-
-  for (var i = 0; i < selectionFieldset.length; i++) {
-    selectionFieldset[i].setAttribute('disabled', 'disabled');
-  }
-
   var removeDisabled = function () {
     offerForm.classList.remove('ad-form--disabled');
     document.querySelector('.map').classList.remove('map--faded');
@@ -52,6 +46,9 @@
 
     for (var j = 0; j < selectionFieldset.length; j++) {
       selectionFieldset[j].removeAttribute('disabled');
+    }
+    for (var i = 0; i < housingSelects.length; i++) {
+      housingSelects[i].removeAttribute('disabled', 'disabled');
     }
   };
 
@@ -63,6 +60,9 @@
 
     for (var j = 0; j < selectionFieldset.length; j++) {
       selectionFieldset[j].setAttribute('disabled', 'disabled');
+    }
+    for (var i = 0; i < housingSelects.length; i++) {
+      housingSelects[i].setAttribute('disabled', 'disabled');
     }
   };
 
@@ -104,15 +104,24 @@
     });
   };
 
-  var backToBasis = function () {
-    addDisabled();
-    window.pin.onRemovePins();
-    window.card.closeAllCard();
-    offerForm.reset();
-    onPriceOfRoom();
+  var pinStartCoords = function () {
     document.querySelector('.map__pin--main').style.top = '375px';
     document.querySelector('.map__pin--main').style.left = '570px';
     window.map.addressBar.value = '603, 408';
+  };
+
+  var onPriceOfRoom = function () {
+    priceOfRoom.placeholder = minPriceOfRoom[selectOfRoom.value];
+    priceOfRoom.min = minPriceOfRoom[selectOfRoom.value];
+  };
+
+  var backToBasis = function () {
+    addDisabled();
+    window.pin.onRemovePins();
+    window.card.closeCard();
+    offerForm.reset();
+    onPriceOfRoom();
+    pinStartCoords();
   };
 
   var onGetSuccess = function () {
@@ -153,8 +162,6 @@
     });
   };
 
-  validateGuests();
-
   rooms.addEventListener('change', function () {
     validateGuests();
   });
@@ -174,8 +181,6 @@
       }
     });
   };
-
-  validateTime();
 
   timein.addEventListener('change', function () {
     validateTime();
@@ -205,12 +210,11 @@
     }
   });
 
-  var onPriceOfRoom = function () {
-    priceOfRoom.placeholder = minPriceOfRoom[selectOfRoom.value];
-    priceOfRoom.min = minPriceOfRoom[selectOfRoom.value];
-  };
-
   selectOfRoom.addEventListener('change', onPriceOfRoom);
+
+  addDisabled();
+  validateGuests();
+  validateTime();
 
   window.form = {
     removeDisabled: removeDisabled

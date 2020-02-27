@@ -25,7 +25,7 @@
     return pinElement;
   };
 
-  var onGetPins = function (datas) {
+  var onRenderPins = function (datas) {
     for (var i = 0; i < datas.length; i++) {
       similarListPin.appendChild(createPin(datas[i]));
     }
@@ -39,7 +39,7 @@
   };
 
   window.pin = {
-    onGetPins: onGetPins,
+    onRenderPins: onRenderPins,
     onRemovePins: onRemovePins
   };
 })();

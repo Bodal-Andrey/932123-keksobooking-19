@@ -2,18 +2,17 @@
 
 // Модуль, который отвечает за создание метки на карте
 (function () {
-  var labelCenterTop = document.querySelector('.map__pin--main').style.top;
-  var labelCenterLeft = document.querySelector('.map__pin--main').style.left;
   var addressBar = document.querySelector('#address');
   var mainMark = document.querySelector('.map__pin--main');
+  var labelCenterTop = document.querySelector('.map__pin--main').style.top;
+  var labelCenterLeft = document.querySelector('.map__pin--main').style.left;
 
-  addressBar.value = Math.round(parseInt(labelCenterLeft, 10) + 32.5) + ', ' + Math.round(parseInt(labelCenterTop, 10) + 32.5);
+  var getAddressValue = function (left, x, top, y) {
+    addressBar.value = Math.round(parseInt(left, 10) + x) + ', ' + Math.round(parseInt(top, 10) + y);
+  };
 
   var getAddressBar = function () {
-    var spikeLabelTop = Math.round(parseInt(labelCenterTop, 10) + 78);
-    var spikeLabelLeft = Math.round(parseInt(labelCenterLeft, 10) + 32.5);
-
-    addressBar.value = spikeLabelLeft + ', ' + spikeLabelTop;
+    getAddressValue(labelCenterLeft, 32.5, labelCenterTop, 78);
   };
 
   var detectLeftButton = function (evt) {
@@ -29,19 +28,28 @@
   mainMark.addEventListener('keydown', function (evt) {
     if (evt.key === window.utils.ENTER_KEY) {
       window.form.removeDisabled();
-      window.load(window.pin.onGetPins);
+      window.load(window.pin.onRenderPins);
       getAddressBar();
     }
   });
 
+  var onPinMouseDown = function () {
+    if (detectLeftButton()) {
+      initializationApp();
+      mainMark.removeEventListener('mousedown', onPinMouseDown);
+    }
+  };
+
+  var initializationApp = function () {
+    window.form.removeDisabled();
+    getAddressBar();
+    window.load(window.pin.onRenderPins);
+  };
+
+  mainMark.addEventListener('mousedown', onPinMouseDown);
+
   mainMark.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
-
-    if (detectLeftButton()) {
-      window.form.removeDisabled();
-      getAddressBar();
-      window.load(window.pin.onGetPins);
-    }
 
     window.startCoords = {
       x: evt.clientX,
@@ -52,7 +60,11 @@
     document.addEventListener('mouseup', window.dragndrop.onMouseUp);
   });
 
+  getAddressValue(labelCenterLeft, 32.5, labelCenterTop, 32.5);
+
   window.map = {
-    addressBar: addressBar
+    addressBar: addressBar,
+    mainMark: mainMark,
+    getAddressValue: getAddressValue
   };
 })();

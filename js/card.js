@@ -27,18 +27,16 @@
 
   var onCardEscPress = function (evt) {
     if (evt.key === window.utils.ESC_KEY) {
-      closeAllCard();
+      closeCard();
     }
   };
 
-  var closeAllCard = function () {
-    var cards = document.querySelectorAll('.map__card');
-    for (var i = 0; i < cards.length; i++) {
-      if (cards[i]) {
-        cards[i].remove();
-      }
+  var closeCard = function () {
+    var card = document.querySelector('.map__card');
+    if (card) {
+      card.remove();
+      document.removeEventListener('keydown', onCardEscPress);
     }
-    document.removeEventListener('keydown', onCardEscPress);
   };
 
   var createCard = function (data) {
@@ -58,23 +56,24 @@
 
     document.addEventListener('keydown', function (evt) {
       if (evt.key === window.utils.ESC_KEY) {
-        closeAllCard();
+        closeCard();
       }
     });
 
     cardElement.querySelector('.popup__close').addEventListener('click', function () {
-      closeAllCard();
+      closeCard();
     });
     return cardElement;
   };
 
   var renderCard = function (container, card) {
+    closeCard();
     container.appendChild(createCard(card));
   };
 
 
   window.card = {
     renderCard: renderCard,
-    closeAllCard: closeAllCard
+    closeCard: closeCard
   };
 })();
