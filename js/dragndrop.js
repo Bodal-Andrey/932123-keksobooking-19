@@ -2,7 +2,7 @@
 
 (function () {
   var TOPMOST = '52px';
-  var BOTTOMMOST = '552PX';
+  var BOTTOMMOST = '552px';
   var LEFTMOST = '-33px';
   var RIGHTMOST = '1167px';
 

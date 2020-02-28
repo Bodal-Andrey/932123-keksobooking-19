@@ -46,7 +46,9 @@
     window.load(window.pin.onRenderPins);
   };
 
-  mainMark.addEventListener('mousedown', onPinMouseDown);
+  var addRenderPins = function () {
+    mainMark.addEventListener('mousedown', onPinMouseDown);
+  };
 
   mainMark.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
@@ -62,9 +64,12 @@
 
   getAddressValue(labelCenterLeft, 32.5, labelCenterTop, 32.5);
 
+  addRenderPins();
+
   window.map = {
     addressBar: addressBar,
     mainMark: mainMark,
-    getAddressValue: getAddressValue
+    getAddressValue: getAddressValue,
+    addRenderPins: addRenderPins
   };
 })();

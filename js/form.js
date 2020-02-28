@@ -122,6 +122,7 @@
     offerForm.reset();
     onPriceOfRoom();
     pinStartCoords();
+    window.map.addRenderPins();
   };
 
   var onGetSuccess = function () {
