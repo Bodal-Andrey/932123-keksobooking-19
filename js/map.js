@@ -1,36 +1,75 @@
 'use strict';
 
-// Модуль, который управляет карточками объявлений и метками
+// Модуль, который отвечает за создание метки на карте
 (function () {
-  var similarPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
-  var similarListPin = document.querySelector('.map__pins');
+  var addressBar = document.querySelector('#address');
+  var mainMark = document.querySelector('.map__pin--main');
+  var labelCenterTop = document.querySelector('.map__pin--main').style.top;
+  var labelCenterLeft = document.querySelector('.map__pin--main').style.left;
 
-  var renderCard = function (container, card) {
-    container.appendChild(window.card.createCard(card));
+  var getAddressValue = function (left, x, top, y) {
+    addressBar.value = Math.round(parseInt(left, 10) + x) + ', ' + Math.round(parseInt(top, 10) + y);
   };
 
-  var createPin = function (data) {
-    var pinElement = similarPinTemplate.cloneNode(true);
-
-    pinElement.style.left = (data.location.x - 25) + 'px';
-    pinElement.style.top = (data.location.y - 70) + 'px';
-    pinElement.querySelector('img').src = data.author.avatar;
-    pinElement.querySelector('img').alt = data.offer.title;
-
-    pinElement.addEventListener('click', function () {
-      renderCard(similarListPin, data);
-    });
-    pinElement.addEventListener('keydown', function (evt) {
-      if (evt.key === window.utils.ENTER_KEY) {
-        renderCard(similarListPin, data);
-      }
-    });
-
-    return pinElement;
+  var getAddressBar = function () {
+    getAddressValue(labelCenterLeft, 32.5, labelCenterTop, 78);
   };
+
+  var detectLeftButton = function (evt) {
+    evt = evt || window.event;
+    if ('buttons' in evt) {
+      return evt.buttons === 1;
+    }
+    var button = evt.which || evt.button;
+    return button === 1;
+  };
+
+
+  mainMark.addEventListener('keydown', function (evt) {
+    if (evt.key === window.utils.ENTER_KEY) {
+      window.form.removeDisabled();
+      window.load(window.pin.onRenderPins);
+      getAddressBar();
+    }
+  });
+
+  var onPinMouseDown = function () {
+    if (detectLeftButton()) {
+      initializationApp();
+      mainMark.removeEventListener('mousedown', onPinMouseDown);
+    }
+  };
+
+  var initializationApp = function () {
+    window.form.removeDisabled();
+    getAddressBar();
+    window.load(window.pin.onRenderPins);
+  };
+
+  var addRenderPins = function () {
+    mainMark.addEventListener('mousedown', onPinMouseDown);
+  };
+
+  mainMark.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+
+    window.startCoords = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+
+    document.addEventListener('mousemove', window.dragndrop.onMouseMove);
+    document.addEventListener('mouseup', window.dragndrop.onMouseUp);
+  });
+
+  getAddressValue(labelCenterLeft, 32.5, labelCenterTop, 32.5);
+
+  addRenderPins();
 
   window.map = {
-    createPin: createPin,
-    similarListPin: similarListPin,
+    addressBar: addressBar,
+    mainMark: mainMark,
+    getAddressValue: getAddressValue,
+    addRenderPins: addRenderPins
   };
 })();

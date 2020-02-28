@@ -1,6 +1,6 @@
 'use strict';
 
-// Модуль, который отвечает за создание карточки объявлений
+// Модуль, который отвечает за создание карточки объявления
 (function () {
   var similarCardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
@@ -66,7 +66,14 @@
     return cardElement;
   };
 
+  var renderCard = function (container, card) {
+    closeCard();
+    container.appendChild(createCard(card));
+  };
+
+
   window.card = {
-    createCard: createCard
+    renderCard: renderCard,
+    closeCard: closeCard
   };
 })();
