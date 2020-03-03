@@ -26,7 +26,8 @@
   };
 
   var onRenderPins = function (datas) {
-    for (var i = 0; i < datas.length; i++) {
+    var takeNumber = datas.length > 5 ? 5 : datas.length;
+    for (var i = 0; i < takeNumber; i++) {
       similarListPin.appendChild(createPin(datas[i]));
     }
   };
