@@ -6,7 +6,6 @@
   var mainMark = document.querySelector('.map__pin--main');
   var labelCenterTop = document.querySelector('.map__pin--main').style.top;
   var labelCenterLeft = document.querySelector('.map__pin--main').style.left;
-  var housingType = document.querySelector('#housing-type');
   var pins = [];
 
   var getAddressValue = function (left, x, top, y) {
