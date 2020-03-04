@@ -117,7 +117,7 @@
 
   var backToBasis = function () {
     addDisabled();
-    window.pin.onRemovePins();
+    window.pin.removePins();
     window.card.closeCard();
     offerForm.reset();
     onPriceOfRoom();

@@ -25,14 +25,14 @@
     return pinElement;
   };
 
-  var onRenderPins = function (datas) {
+  var renderPins = function (datas) {
     var takeNumber = datas.length > 5 ? 5 : datas.length;
     for (var i = 0; i < takeNumber; i++) {
       similarListPin.appendChild(createPin(datas[i]));
     }
   };
 
-  var onRemovePins = function () {
+  var removePins = function () {
     var pins = document.querySelectorAll('.map__pin');
     for (var i = 1; i < pins.length; i++) {
       similarListPin.removeChild(pins[i]);
@@ -40,7 +40,7 @@
   };
 
   window.pin = {
-    onRenderPins: onRenderPins,
-    onRemovePins: onRemovePins
+    renderPins: renderPins,
+    removePins: removePins
   };
 })();
