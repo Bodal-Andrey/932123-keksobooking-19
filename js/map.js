@@ -24,12 +24,14 @@
     return button === 1;
   };
 
+  var onGetSuccess = function (data) {
+    window.globalData = data;
+    window.pin.renderPins(data);
+  };
 
   mainMark.addEventListener('keydown', function (evt) {
     if (evt.key === window.utils.ENTER_KEY) {
-      window.form.removeDisabled();
-      window.load(window.pin.onRenderPins);
-      getAddressBar();
+      initializationApp();
     }
   });
 
@@ -43,7 +45,7 @@
   var initializationApp = function () {
     window.form.removeDisabled();
     getAddressBar();
-    window.load(window.pin.onRenderPins);
+    window.load(onGetSuccess);
   };
 
   var addRenderPins = function () {
