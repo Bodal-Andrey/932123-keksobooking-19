@@ -25,12 +25,12 @@
     return pinElement;
   };
 
-  var renderPins = function (datas) {
+  var renderPins = window.debounce(function (datas) {
     var takeNumber = datas.length > 5 ? 5 : datas.length;
     for (var i = 0; i < takeNumber; i++) {
       similarListPin.appendChild(createPin(datas[i]));
     }
-  };
+  });
 
   var removePins = function () {
     var pins = document.querySelectorAll('.map__pin');

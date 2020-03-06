@@ -7,7 +7,6 @@
   var housingRoomsElement = document.querySelector('#housing-rooms');
   var housingGuestsElement = document.querySelector('#housing-guests');
   var housingFeatures = document.querySelectorAll('.map__checkbox');
-  var checkboxesChecked = [];
 
   var getHousingTypeValue = function (el) {
     return housingTypeElement.value === 'any' ? true : el.offer.type === housingTypeElement.value;
@@ -18,7 +17,7 @@
   };
 
   var getHousingGuestsValue = function (el) {
-    return housingGuestsElement.value === 'any' ? true : el.offer.rooms === parseInt(housingGuestsElement.value, 10);
+    return housingGuestsElement.value === 'any' ? true : el.offer.guests === parseInt(housingGuestsElement.value, 10);
   };
 
   var getHousingPriceValue = function (el) {
@@ -35,28 +34,17 @@
     return offerPrice;
   };
 
-  var getCheckedCheckBoxes = function () {
+  var getHousingFeatures = function (el) {
+    var filterResult = true;
     for (var i = 0; i < housingFeatures.length; i++) {
       if (housingFeatures[i].checked) {
-        checkboxesChecked.push(housingFeatures[i].value);
+        if (el.offer.features.indexOf(housingFeatures[i].value) === -1) {
+          filterResult = false;
+          break;
+        }
       }
     }
-    return checkboxesChecked;
-  };
-
-  getCheckedCheckBoxes();
-
-  var getContains = function (el) {
-    var result = true;
-    var index = el.offer.features;
-    for (var i = 0; i < index.length; i++) {
-      if (checkboxesChecked.indexOf(index[i]) === -1) {
-        result = false;
-      } else {
-        result = true;
-      }
-    }
-    return result;
+    return filterResult;
   };
 
   var getAllFilter = function (data) {
@@ -65,7 +53,7 @@
       getHousingPriceValue(el) &&
       getHousingRoomsValue(el) &&
       getHousingGuestsValue(el) &&
-      getContains(el);
+      getHousingFeatures(el);
     });
   };
 

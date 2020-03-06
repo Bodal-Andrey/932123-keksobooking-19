@@ -34,6 +34,7 @@
   var timeout = offerForm.querySelector('#timeout');
   var selectOfRoom = offerForm.querySelector('#type');
   var resetForm = offerForm.querySelector('.ad-form__reset');
+  var mapFilters = document.querySelector('.map__filters');
   var main = document.querySelector('main');
   var success = document.querySelector('#success').content.querySelector('.success');
   var error = document.querySelector('#error').content.querySelector('.error');
@@ -42,7 +43,7 @@
     offerForm.classList.remove('ad-form--disabled');
     document.querySelector('.map').classList.remove('map--faded');
     document.querySelector('.ad-form-header').removeAttribute('disabled');
-    document.querySelector('.map__filters').classList.remove('ad-form--disabled');
+    mapFilters.classList.remove('ad-form--disabled');
 
     for (var j = 0; j < selectionFieldset.length; j++) {
       selectionFieldset[j].removeAttribute('disabled');
@@ -56,7 +57,7 @@
     offerForm.classList.add('ad-form--disabled');
     document.querySelector('.map').classList.add('map--faded');
     document.querySelector('.ad-form-header').setAttribute('disabled', 'disabled');
-    document.querySelector('.map__filters').classList.add('ad-form--disabled');
+    mapFilters.classList.add('ad-form--disabled');
 
     for (var j = 0; j < selectionFieldset.length; j++) {
       selectionFieldset[j].setAttribute('disabled', 'disabled');
@@ -120,6 +121,7 @@
     window.pin.removePins();
     window.card.closeCard();
     offerForm.reset();
+    mapFilters.reset();
     onPriceOfRoom();
     pinStartCoords();
     window.map.addRenderPins();
