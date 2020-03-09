@@ -1,16 +1,14 @@
 'use strict';
 
 (function () {
-  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
-
   var fileChooser = document.querySelector('#avatar');
   var preview = document.querySelector('.ad-form-header__preview img');
 
-  fileChooser.addEventListener('change', function () {
+  var onAvatarLoad = function () {
     var file = fileChooser.files[0];
     var fileName = file.name.toLowerCase();
 
-    var matches = FILE_TYPES.some(function (it) {
+    var matches = window.utils.FILE_TYPES.some(function (it) {
       return fileName.endsWith(it);
     });
 
@@ -22,5 +20,15 @@
       });
       reader.readAsDataURL(file);
     }
-  });
+  };
+
+  fileChooser.addEventListener('change', onAvatarLoad);
+
+  var removeAvatar = function () {
+    preview.src = 'img/muffin-grey.svg';
+  };
+
+  window.avatar = {
+    removeAvatar: removeAvatar
+  };
 })();
