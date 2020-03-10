@@ -125,6 +125,8 @@
     onPriceOfRoom();
     pinStartCoords();
     window.map.addRenderPins();
+    window.roomphoto.removeRoomPhoto();
+    window.avatar.removeAvatar();
   };
 
   var onGetSuccess = function () {

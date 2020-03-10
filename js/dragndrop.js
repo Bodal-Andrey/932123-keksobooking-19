@@ -8,15 +8,14 @@
 
   var getCalcCoords = function (evt) {
 
-    var shift = {
-      x: window.startCoords.x - evt.clientX,
-      y: window.startCoords.y - evt.clientY
+    var Coordinate = function (x, y) {
+      this.x = x;
+      this.y = y;
     };
 
-    window.startCoords = {
-      x: evt.clientX,
-      y: evt.clientY
-    };
+    var shift = new Coordinate(window.startCoords.x - evt.clientX, window.startCoords.y - evt.clientY);
+
+    window.startCoords = new Coordinate(evt.clientX, evt.clientY);
 
     var limitY = window.map.mainMark.offsetTop - shift.y;
     var limitX = window.map.mainMark.offsetLeft - shift.x;
