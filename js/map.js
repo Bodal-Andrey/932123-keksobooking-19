@@ -1,18 +1,15 @@
 'use strict';
 
-// Модуль, который отвечает за создание метки на карте
 (function () {
   var addressBar = document.querySelector('#address');
   var mainMark = document.querySelector('.map__pin--main');
-  var labelCenterTop = document.querySelector('.map__pin--main').style.top;
-  var labelCenterLeft = document.querySelector('.map__pin--main').style.left;
 
   var getAddressValue = function (left, x, top, y) {
     addressBar.value = Math.round(parseInt(left, 10) + x) + ', ' + Math.round(parseInt(top, 10) + y);
   };
 
   var getAddressBar = function () {
-    getAddressValue(labelCenterLeft, 32.5, labelCenterTop, 78);
+    getAddressValue(mainMark.style.left, 32.5, mainMark.style.top, 78);
   };
 
   var detectLeftButton = function (evt) {
@@ -26,7 +23,7 @@
 
   var onGetSuccess = function (data) {
     window.globalData = data;
-    window.pin.renderPins(data);
+    window.pin.render(data);
   };
 
   mainMark.addEventListener('keydown', function (evt) {
@@ -42,10 +39,15 @@
     }
   };
 
+  var onLoadError = function () {
+    window.form.getReport(window.form.error);
+    window.form.closeErrorMessage();
+  };
+
   var initializationApp = function () {
     window.form.removeDisabled();
     getAddressBar();
-    window.load(onGetSuccess);
+    window.backend.load(onGetSuccess, onLoadError);
   };
 
   var addRenderPins = function () {
@@ -64,7 +66,7 @@
     document.addEventListener('mouseup', window.dragndrop.onMouseUp);
   });
 
-  getAddressValue(labelCenterLeft, 32.5, labelCenterTop, 32.5);
+  getAddressValue(mainMark.style.left, 32.5, mainMark.style.top, 32.5);
 
   addRenderPins();
 

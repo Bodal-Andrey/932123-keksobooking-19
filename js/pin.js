@@ -1,6 +1,5 @@
 'use strict';
 
-// Модуль, который управляет карточками объявлений и метками
 (function () {
   var similarPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var similarListPin = document.querySelector('.map__pins');
@@ -14,11 +13,11 @@
     pinElement.querySelector('img').alt = data.offer.title;
 
     pinElement.addEventListener('click', function () {
-      window.card.renderCard(similarListPin, data);
+      window.card.render(similarListPin, data);
     });
     pinElement.addEventListener('keydown', function (evt) {
       if (evt.key === window.utils.ENTER_KEY) {
-        window.card.renderCard(similarListPin, data);
+        window.card.render(similarListPin, data);
       }
     });
 
@@ -40,7 +39,7 @@
   };
 
   window.pin = {
-    renderPins: renderPins,
-    removePins: removePins
+    render: renderPins,
+    remove: removePins
   };
 })();

@@ -35,6 +35,6 @@
   };
 
   window.roomphoto = {
-    removeRoomPhoto: removeRoomPhoto
+    remove: removeRoomPhoto
   };
 })();

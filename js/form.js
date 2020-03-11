@@ -1,17 +1,16 @@
 'use strict';
 
-// Модуль, который работает с формой объявления
 (function () {
   var MIN_NAME_LENGTH = 30;
   var MAX_NAME_LENGTH = 100;
 
-  var ROOMS_FOR_GUESTS = {
+  var roomsForGuests = {
     '1': ['1'],
     '2': ['2', '1'],
     '3': ['3', '2', '1'],
     '100': ['0']
   };
-  var CHECK_TIME = {
+  var checkTime = {
     '12:00': ['12:00'],
     '13:00': ['13:00'],
     '14:00': ['14:00']
@@ -100,7 +99,7 @@
     document.addEventListener('click', onClickDocumentSuccess);
     document.addEventListener('keydown', function (evt) {
       if (evt.key === window.utils.ESC_KEY) {
-        removeReport(success);
+        onClickDocumentSuccess();
       }
     });
   };
@@ -118,15 +117,15 @@
 
   var backToBasis = function () {
     addDisabled();
-    window.pin.removePins();
-    window.card.closeCard();
+    window.pin.remove();
+    window.card.close();
     offerForm.reset();
     mapFilters.reset();
     onPriceOfRoom();
     pinStartCoords();
     window.map.addRenderPins();
-    window.roomphoto.removeRoomPhoto();
-    window.avatar.removeAvatar();
+    window.roomphoto.remove();
+    window.avatar.remove();
   };
 
   var onGetSuccess = function () {
@@ -135,13 +134,13 @@
     closeSuccessMessage();
   };
 
-  var onGetError = function () {
+  var onSubmitError = function () {
     getReport(error);
     closeErrorMessage();
   };
 
   offerForm.addEventListener('submit', function (evt) {
-    window.upload(new FormData(offerForm), onGetSuccess, onGetError);
+    window.backend.upload(new FormData(offerForm), onGetSuccess, onSubmitError);
     evt.preventDefault();
   });
 
@@ -150,9 +149,8 @@
     evt.preventDefault();
   });
 
-  // Валидация формы
   var validateGuests = function () {
-    var validGuestsOptions = ROOMS_FOR_GUESTS[rooms.value];
+    var validGuestsOptions = roomsForGuests[rooms.value];
     var guestsOptions = guests.querySelectorAll('option');
     guestsOptions.forEach(function (currentOption) {
       currentOption.disabled = true;
@@ -172,7 +170,7 @@
   });
 
   var validateTime = function () {
-    var validCheckInTime = CHECK_TIME[timein.value];
+    var validCheckInTime = checkTime[timein.value];
     var validCheckOutTime = timeout.querySelectorAll('option');
     validCheckOutTime.forEach(function (currentTime) {
       currentTime.disabled = true;
@@ -222,6 +220,9 @@
   validateTime();
 
   window.form = {
-    removeDisabled: removeDisabled
+    removeDisabled: removeDisabled,
+    error: error,
+    getReport: getReport,
+    closeErrorMessage: closeErrorMessage
   };
 })();

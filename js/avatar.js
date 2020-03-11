@@ -29,6 +29,6 @@
   };
 
   window.avatar = {
-    removeAvatar: removeAvatar
+    remove: removeAvatar
   };
 })();
