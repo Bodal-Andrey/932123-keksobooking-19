@@ -4,6 +4,13 @@
   var similarPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var similarListPin = document.querySelector('.map__pins');
 
+  var removeShadow = function () {
+    var pins = document.querySelectorAll('.map__pin');
+    for (var i = 1; i < pins.length; i++) {
+      pins[i].style.filter = null;
+    }
+  };
+
   var createPin = function (data) {
     var pinElement = similarPinTemplate.cloneNode(true);
 
@@ -14,10 +21,15 @@
 
     pinElement.addEventListener('click', function () {
       window.card.render(similarListPin, data);
+      removeShadow();
+      pinElement.style.filter = 'drop-shadow(0 0 5px red)';
     });
+
     pinElement.addEventListener('keydown', function (evt) {
       if (evt.key === window.utils.ENTER_KEY) {
         window.card.render(similarListPin, data);
+        removeShadow();
+        pinElement.style.filter = 'drop-shadow(0 0 5px red)';
       }
     });
 
@@ -40,6 +52,7 @@
 
   window.pin = {
     render: renderPins,
-    remove: removePins
+    remove: removePins,
+    removeShadow: removeShadow
   };
 })();

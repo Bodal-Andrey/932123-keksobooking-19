@@ -33,6 +33,7 @@
   var closeCard = function () {
     var card = document.querySelector('.map__card');
     if (card) {
+      window.pin.removeShadow();
       card.remove();
       document.removeEventListener('keydown', onCardEscPress);
     }
@@ -62,6 +63,7 @@
     cardElement.querySelector('.popup__close').addEventListener('click', function () {
       closeCard();
     });
+
     return cardElement;
   };
 
