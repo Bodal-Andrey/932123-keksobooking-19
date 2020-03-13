@@ -5,10 +5,10 @@
   var similarListPin = document.querySelector('.map__pins');
 
   var removeShadow = function () {
-    var pins = document.querySelectorAll('.map__pin');
-    for (var i = 1; i < pins.length; i++) {
-      pins[i].style.filter = null;
-    }
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    pins.forEach(function (it) {
+      it.style.filter = null;
+    });
   };
 
   var createPin = function (data) {
@@ -44,10 +44,10 @@
   });
 
   var removePins = function () {
-    var pins = document.querySelectorAll('.map__pin');
-    for (var i = 1; i < pins.length; i++) {
-      similarListPin.removeChild(pins[i]);
-    }
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    pins.forEach(function (it) {
+      similarListPin.removeChild(it);
+    });
   };
 
   window.pin = {

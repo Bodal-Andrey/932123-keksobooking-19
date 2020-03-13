@@ -1,6 +1,9 @@
 'use strict';
 
 (function () {
+  var PHOTO_WIDTH = '70';
+  var PHOTO_HEIGHT = '70';
+
   var fileChooser = document.querySelector('#images');
   var photo = document.createElement('img');
   var photoBlock = document.querySelector('.ad-form__photo');
@@ -19,8 +22,8 @@
       reader.addEventListener('load', function () {
         photoBlock.appendChild(photo);
         photo.src = reader.result;
-        photo.width = '70';
-        photo.height = '70';
+        photo.width = PHOTO_WIDTH;
+        photo.height = PHOTO_HEIGHT;
       });
       reader.readAsDataURL(file);
     }

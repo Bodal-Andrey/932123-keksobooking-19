@@ -1,6 +1,11 @@
 'use strict';
 
 (function () {
+  var ANY_VALUE = 'any';
+  var LOW_VALUE = 'low';
+  var MIDDLE_VALUE = 'middle';
+  var HIGH_VALUE = 'high';
+
   var allFiltersElement = document.querySelector('.map__filters');
   var housingTypeElement = document.querySelector('#housing-type');
   var housingPriceElement = document.querySelector('#housing-price');
@@ -9,26 +14,26 @@
   var housingFeatureElements = document.querySelectorAll('.map__checkbox');
 
   var getHousingTypeValue = function (el) {
-    return housingTypeElement.value === 'any' ? true : el.offer.type === housingTypeElement.value;
+    return housingTypeElement.value === ANY_VALUE ? true : el.offer.type === housingTypeElement.value;
   };
 
   var getHousingRoomsValue = function (el) {
-    return housingRoomsElement.value === 'any' ? true : el.offer.rooms === parseInt(housingRoomsElement.value, 10);
+    return housingRoomsElement.value === ANY_VALUE ? true : el.offer.rooms === parseInt(housingRoomsElement.value, 10);
   };
 
   var getHousingGuestsValue = function (el) {
-    return housingGuestsElement.value === 'any' ? true : el.offer.guests === parseInt(housingGuestsElement.value, 10);
+    return housingGuestsElement.value === ANY_VALUE ? true : el.offer.guests === parseInt(housingGuestsElement.value, 10);
   };
 
   var getHousingPriceValue = function (el) {
     var offerPrice = el.offer.price;
-    if (housingPriceElement.value === 'low') {
+    if (housingPriceElement.value === LOW_VALUE) {
       return offerPrice < 10000;
-    } else if (housingPriceElement.value === 'high') {
+    } else if (housingPriceElement.value === HIGH_VALUE) {
       return offerPrice > 50000;
-    } else if (housingPriceElement.value === 'middle') {
+    } else if (housingPriceElement.value === MIDDLE_VALUE) {
       return offerPrice >= 10000 && offerPrice <= 50000;
-    } else if (housingPriceElement.value === 'any') {
+    } else if (housingPriceElement.value === ANY_VALUE) {
       return true;
     }
     return offerPrice;

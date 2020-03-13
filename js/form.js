@@ -3,6 +3,7 @@
 (function () {
   var MIN_NAME_LENGTH = 30;
   var MAX_NAME_LENGTH = 100;
+  var MAIN_MARK_START_COORDS = '603, 408';
 
   var roomsForGuests = {
     '1': ['1'],
@@ -44,12 +45,13 @@
     document.querySelector('.ad-form-header').removeAttribute('disabled');
     mapFilters.classList.remove('ad-form--disabled');
 
-    for (var j = 0; j < selectionFieldset.length; j++) {
-      selectionFieldset[j].removeAttribute('disabled');
-    }
-    for (var i = 0; i < housingSelects.length; i++) {
-      housingSelects[i].removeAttribute('disabled', 'disabled');
-    }
+    selectionFieldset.forEach(function (it) {
+      it.removeAttribute('disabled', 'disabled');
+    });
+
+    housingSelects.forEach(function (it) {
+      it.removeAttribute('disabled', 'disabled');
+    });
   };
 
   var addDisabled = function () {
@@ -58,12 +60,13 @@
     document.querySelector('.ad-form-header').setAttribute('disabled', 'disabled');
     mapFilters.classList.add('ad-form--disabled');
 
-    for (var j = 0; j < selectionFieldset.length; j++) {
-      selectionFieldset[j].setAttribute('disabled', 'disabled');
-    }
-    for (var i = 0; i < housingSelects.length; i++) {
-      housingSelects[i].setAttribute('disabled', 'disabled');
-    }
+    selectionFieldset.forEach(function (it) {
+      it.setAttribute('disabled', 'disabled');
+    });
+
+    housingSelects.forEach(function (it) {
+      it.setAttribute('disabled', 'disabled');
+    });
   };
 
   var getReport = function (data) {
@@ -74,20 +77,26 @@
     main.removeChild(data);
   };
 
+  var onClickDocumentError = function () {
+    removeReport(error);
+    document.removeEventListener('click', onClickDocumentError);
+  };
+
+  var onErrorEscPress = function (evt) {
+    if (evt.key === window.utils.ESC_KEY) {
+      onClickDocumentError();
+    }
+  };
+
   var closeErrorMessage = function () {
     var errorButton = document.querySelector('.error__button');
 
-    errorButton.addEventListener('click', function () {
-      removeReport(error);
-    });
-    document.addEventListener('click', function () {
-      removeReport(error);
-    });
-    document.addEventListener('keydown', function (evt) {
-      if (evt.key === window.utils.ESC_KEY) {
-        removeReport(error);
-      }
-    });
+    document.addEventListener('click', onClickDocumentError);
+
+    errorButton.addEventListener('click', onClickDocumentError);
+
+    document.addEventListener('keydown', onErrorEscPress);
+
   };
 
   var onClickDocumentSuccess = function () {
@@ -95,19 +104,22 @@
     document.removeEventListener('click', onClickDocumentSuccess);
   };
 
+  var onSuccessEscPress = function (evt) {
+    if (evt.key === window.utils.ESC_KEY) {
+      onClickDocumentSuccess();
+      document.removeEventListener('keydown', onSuccessEscPress);
+    }
+  };
+
   var closeSuccessMessage = function () {
     document.addEventListener('click', onClickDocumentSuccess);
-    document.addEventListener('keydown', function (evt) {
-      if (evt.key === window.utils.ESC_KEY) {
-        onClickDocumentSuccess();
-      }
-    });
+    document.addEventListener('keydown', onSuccessEscPress);
   };
 
   var pinStartCoords = function () {
     document.querySelector('.map__pin--main').style.top = '375px';
     document.querySelector('.map__pin--main').style.left = '570px';
-    window.map.addressBar.value = '603, 408';
+    window.map.addressBar.value = MAIN_MARK_START_COORDS;
   };
 
   var onPriceOfRoom = function () {

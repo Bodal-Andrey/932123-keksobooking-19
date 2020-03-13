@@ -1,10 +1,10 @@
 'use strict';
 
 (function () {
-  var TOPMOST = '52px';
-  var BOTTOMMOST = '552px';
-  var LEFTMOST = '-33px';
-  var RIGHTMOST = '1167px';
+  var TOP_MOST = '52px';
+  var BOTTOM_MOST = '552px';
+  var LEFT_MOST = '-33px';
+  var RIGHT_MOST = '1167px';
 
   var getCalcCoords = function (evt) {
 
@@ -21,17 +21,17 @@
     var limitX = window.map.mainMark.offsetLeft - shift.x;
 
     if (limitY <= 52) {
-      window.map.mainMark.style.top = TOPMOST;
+      window.map.mainMark.style.top = TOP_MOST;
     } else if (limitY >= 552) {
-      window.map.mainMark.style.top = BOTTOMMOST;
+      window.map.mainMark.style.top = BOTTOM_MOST;
     } else {
       window.map.mainMark.style.top = limitY + 'px';
     }
 
     if (limitX <= -33) {
-      window.map.mainMark.style.left = LEFTMOST;
+      window.map.mainMark.style.left = LEFT_MOST;
     } else if (limitX >= 1167) {
-      window.map.mainMark.style.left = RIGHTMOST;
+      window.map.mainMark.style.left = RIGHT_MOST;
     } else {
       window.map.mainMark.style.left = limitX + 'px';
     }

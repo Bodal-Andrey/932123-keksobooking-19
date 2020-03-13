@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var BASIC_PICTURE = 'img/muffin-grey.svg';
+
   var fileChooser = document.querySelector('#avatar');
   var preview = document.querySelector('.ad-form-header__preview img');
 
@@ -25,7 +27,7 @@
   fileChooser.addEventListener('change', onAvatarLoad);
 
   var removeAvatar = function () {
-    preview.src = 'img/muffin-grey.svg';
+    preview.src = BASIC_PICTURE;
   };
 
   window.avatar = {
